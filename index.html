@@ -44,17 +44,19 @@ html{scrollbar-color:#3E92D1 #EFF5FB;scrollbar-width:thin;}
   --shadow:0 18px 50px -20px rgba(7,49,88,0.28);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth; overflow-x:hidden;}
 body{
   font-family:'Jost',sans-serif;
   color:var(--ink);
   background:var(--sand-light);
   overflow-x:hidden;
+  width:100%;
+  max-width:100vw;
 }
 h1,h2,h3,.display{font-family:'Fraunces',serif; letter-spacing:-0.01em;}
 a{color:inherit;text-decoration:none;}
 img{display:block;max-width:100%;}
-.container{max-width:1180px;margin:0 auto;padding:0 28px;}
+.container{max-width:1180px;margin:0 auto;padding:0 22px;}
 @media(prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important;}}
 
 /* reveal on scroll */
@@ -63,15 +65,15 @@ img{display:block;max-width:100%;}
 
 /* ===== NAV ===== */
 .navbar{position:fixed; top:0; left:0; right:0; z-index:1000; padding:18px 0; transition:background .4s, padding .4s, box-shadow .4s;}
-.navbar.scrolled{background:rgba(250,246,238,0.92); backdrop-filter:blur(10px); box-shadow:0 6px 30px -12px rgba(0,0,0,.2); padding:10px 0;}
+.navbar.scrolled{background:rgba(255,255,255,0.97); backdrop-filter:blur(12px); box-shadow:0 4px 30px -12px rgba(0,0,0,.2); padding:10px 0;}
 .nav-inner{display:flex; align-items:center; justify-content:space-between;}
 .brand{display:flex; flex-direction:column; line-height:1;}
-.brand strong{font-family:'Fraunces',serif; font-size:1.35rem; color:var(--sand-light); letter-spacing:.02em; transition:color .4s;}
-.brand small{font-size:.62rem; letter-spacing:.32em; color:var(--turquoise); font-weight:500;}
+.brand strong{font-family:'Fraunces',serif; font-size:1.25rem; color:var(--sand-light); letter-spacing:.02em; transition:color .4s;}
+.brand small{font-size:.58rem; letter-spacing:.28em; color:var(--turquoise); font-weight:500;}
 .navbar.scrolled .brand strong{color:var(--teal-deep);}
 .nav-links{display:flex; align-items:center; gap:30px;}
-.nav-links a{font-size:.85rem; letter-spacing:.04em; color:var(--sand-light); position:relative; padding:6px 0; transition:color .4s;}
-.navbar.scrolled .nav-links a{color:var(--ink);}
+.nav-links > a{font-size:.85rem; letter-spacing:.04em; color:var(--sand-light); position:relative; padding:6px 0; transition:color .4s;}
+.navbar.scrolled .nav-links > a{color:var(--ink);}
 .nav-dropdown{position:relative;}
 .nav-megamenu{position:fixed; left:0; right:0; top:78px; background:#fff; box-shadow:0 24px 50px -20px rgba(7,49,88,.35); display:flex; gap:28px; padding:28px 5vw 32px; opacity:0; visibility:hidden; transform:translateY(-8px); transition:opacity .3s, transform .3s, visibility .3s; z-index:998; flex-wrap:wrap;}
 .navbar.scrolled .nav-megamenu{top:62px;}
@@ -81,15 +83,51 @@ img{display:block;max-width:100%;}
 .mega-item:hover .mega-thumb{transform:scale(1.03);}
 .mega-label{font-size:.84rem; color:var(--teal-deep); font-weight:500; letter-spacing:.02em;}
 .mega-item:hover .mega-label{color:var(--turquoise);}
-.nav-links a::after{content:'';position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--terracotta);transition:width .3s;}
-.nav-links a:hover::after{width:100%;}
+.nav-links > a::after{content:'';position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--turquoise);transition:width .3s;}
+.nav-links > a:hover::after{width:100%;}
 .lang-switch{display:flex; gap:6px; border:1px solid rgba(255,255,255,.4); border-radius:30px; padding:4px; transition:border-color .4s;}
 .navbar.scrolled .lang-switch{border-color:var(--line);}
-.lang-switch button{font-family:'Jost'; font-size:.72rem; letter-spacing:.04em; padding:5px 10px; border-radius:20px; border:none; background:transparent; color:var(--sand-light); cursor:pointer; transition:.3s;}
+.lang-switch button{font-family:'Jost'; font-size:.72rem; letter-spacing:.04em; padding:5px 10px; border-radius:20px; border:none; background:transparent; color:var(--sand-light); transition:.3s;}
 .navbar.scrolled .lang-switch button{color:var(--ink);}
-.lang-switch button.active{background:var(--terracotta); color:#fff;}
-.nav-toggle{display:none; font-size:1.3rem; background:none; border:none; color:var(--sand-light); cursor:pointer;}
+.lang-switch button.active{background:var(--teal-deep); color:#fff;}
+.nav-toggle{display:none; font-size:1.4rem; background:none; border:none; color:var(--sand-light); z-index:1001; padding:4px;}
 .navbar.scrolled .nav-toggle{color:var(--ink);}
+
+/* ===== MOBILE NAV ===== */
+@media(max-width:900px){
+  .nav-links{
+    position:fixed; inset:0; top:0;
+    background:rgba(5,20,45,.97); backdrop-filter:blur(10px);
+    flex-direction:column; justify-content:center; align-items:center;
+    gap:32px; padding:80px 28px 40px;
+    transform:translateX(100%); transition:transform .4s cubic-bezier(.2,.7,.2,1);
+    z-index:1000; overflow-y:auto;
+  }
+  .nav-links.open{transform:translateX(0);}
+  .nav-links > a, .nav-dropdown > a{font-size:1.3rem; color:#fff !important; letter-spacing:.05em;}
+  .lang-switch{border-color:rgba(255,255,255,.3); order:99;}
+  .lang-switch button{color:rgba(255,255,255,.8) !important;}
+  .nav-dropdown{width:100%; text-align:center;}
+  .nav-dropdown > a{display:block; width:100%;}
+  .nav-megamenu{
+    position:static !important; opacity:1 !important; visibility:visible !important;
+    transform:none !important; box-shadow:none !important; background:transparent !important;
+    display:flex; flex-wrap:wrap; justify-content:center; gap:16px;
+    padding:16px 0 0 !important; top:auto !important;
+    display:none;
+  }
+  .nav-dropdown.open .nav-megamenu{display:flex;}
+  .mega-item{width:130px;}
+  .mega-thumb{height:90px;}
+  .mega-label{color:#fff; font-size:.78rem;}
+  .nav-toggle{display:block;}
+  /* Book Direct pill in mobile menu */
+  .nav-book-pill{font-size:1rem !important; background:var(--turquoise) !important; color:#fff !important; padding:12px 28px !important; border-radius:4px;}
+}
+
+/* Book Direct pill desktop */
+.nav-book-pill{background:var(--turquoise);color:#fff !important;padding:8px 18px;border-radius:3px;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;}
+
 
 /* ===== HERO ===== */
 .hero{position:relative; min-height:100vh; display:flex; align-items:center; overflow:hidden; background:
@@ -289,22 +327,51 @@ footer ul a:hover{color:var(--turquoise);}
 .bf-submit{background:var(--turquoise);color:#fff;border:none;border-radius:5px;padding:15px 28px;font-family:'Jost',sans-serif;font-size:.84rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .3s,transform .3s;}
 .bf-submit:hover{background:#2d81be;transform:translateY(-2px);}
 
-/* ===== CONTACT FORM ===== */
-.contact-form{max-width:560px;margin:34px auto 0;display:flex;flex-direction:column;gap:16px;text-align:left;}
-.contact-form input,.contact-form textarea{background:var(--sand);border:1px solid var(--line);border-radius:5px;padding:13px 16px;color:var(--ink);font-family:'Jost',sans-serif;font-size:.92rem;transition:border-color .3s;}
-.contact-form input:focus,.contact-form textarea:focus{outline:none;border-color:var(--turquoise);}
-.contact-form textarea{resize:vertical;min-height:110px;}
-.contact-form button{align-self:center;}
-
-/* ===== CAREERS SECTION ===== */
-.careers-list{color:rgba(250,246,238,.75);line-height:1.85;font-size:.95rem;margin-top:10px;padding-left:20px;}
-.careers-list li{margin-bottom:4px;}
-.careers-note{color:rgba(250,246,238,.6);font-size:.85rem;margin-top:18px;line-height:1.6;}
-.bf-check{flex-direction:row;align-items:flex-start;gap:10px;}
-.bf-check input[type="checkbox"]{width:16px;height:16px;flex:none;margin-top:3px;accent-color:var(--turquoise);}
-.bf-check label{text-transform:none;letter-spacing:normal;font-size:.85rem;color:rgba(250,246,238,.75);}
-
 [data-i18n]{transition:opacity .25s;}
+
+/* ===== MOBILE SECTION FIXES ===== */
+@media(max-width:768px){
+  .container{padding:0 18px;}
+  .hero-content{padding:120px 0 80px;}
+  .hero h1{font-size:clamp(2rem,8vw,3rem);}
+  .hero p.lede{font-size:.95rem;}
+  .hero-cta{flex-direction:column; gap:12px;}
+  .hero-cta .btn{width:100%; justify-content:center;}
+  .coast-divider{height:50px;}
+  .accommodations,.gallery,.himara,.partner,.contact,.booking-form-sec{padding:70px 0;}
+  .section-head{margin-bottom:36px;}
+  .choose-grid{gap:20px;}
+  .prop-card{min-height:420px;}
+  .prop-card .body{padding:24px 22px;}
+  .prop-card h3{font-size:1.5rem;}
+  .prop-card .actions{flex-direction:column; gap:10px;}
+  .prop-card .actions a{width:100%; justify-content:center;}
+  .acc-grid{grid-template-columns:1fr!important;}
+  .acc-group{margin-top:50px;}
+  .gal-grid{grid-template-columns:1fr 1fr!important; grid-auto-rows:130px!important;}
+  .gal-item.big{grid-row:span 1;}
+  .him-grid{grid-template-columns:1fr 1fr;}
+  .him-stats{grid-template-columns:1fr 1fr;}
+  .partner-inner{gap:36px;}
+  .partner-cta{flex-direction:column; gap:12px;}
+  .partner-cta .btn{width:100%; justify-content:center;}
+  .booking-form{padding:24px 18px;}
+  .bf-2{flex-direction:column;}
+  .contact-actions{flex-direction:column; gap:12px;}
+  .contact-actions .btn{width:100%; justify-content:center;}
+  .foot-grid{gap:30px;}
+  .whatsapp-float{bottom:18px; right:18px; width:52px; height:52px; font-size:1.4rem;}
+  #lightbox img{max-width:95vw; max-height:75vh;}
+  #lbPrev{left:8px;}
+  #lbNext{right:8px;}
+}
+@media(max-width:480px){
+  .him-grid{grid-template-columns:1fr;}
+  .him-stats{grid-template-columns:1fr 1fr;}
+  .gal-grid{grid-template-columns:1fr!important; grid-auto-rows:220px!important;}
+  .gal-item.big{grid-row:span 1;}
+  .mega-item{width:110px;}
+}
 </style>
 </head>
 <body>
@@ -323,19 +390,20 @@ footer ul a:hover{color:var(--turquoise);}
   <div class="container nav-inner">
     <a href="#home" class="brand">
       <strong>ROUMERS HIMARA</strong>
-      <small>A L B A N I A · R I V I E R A</small>
+      <small>A L B A N I A  ·  R I V I E R A</small>
     </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu"><i class="fa-solid fa-bars" id="toggleIcon"></i></button>
     <nav class="nav-links" id="navLinks">
       <a href="#home" data-i18n="nav_home">Home</a>
-      <div class="nav-dropdown">
-        <a href="#accommodations" data-i18n="nav_accom">Accommodations</a>
+      <div class="nav-dropdown" id="navDropdown">
+        <a href="#accommodations" data-i18n="nav_accom">Accommodations <i class="fa-solid fa-chevron-down" style="font-size:.6rem;opacity:.7;"></i></a>
         <div class="nav-megamenu">
           <a href="#acc-himara" class="mega-item">
-            <span class="mega-thumb" style="background-image:url('https://a0.muscache.com/im/pictures/hosting/Hosting-1599907884845241508/original/1569b0e6-ca34-4a40-bf1e-56f487ec1bbe.png?im_w=480');"></span>
+            <span class="mega-thumb" style="background-image:url('https://a0.muscache.com/im/pictures/hosting/Hosting-1599907884845241508/original/82613a72-ee7e-4c80-bd3f-faf886fb80e3.jpeg?im_w=480');"></span>
             <span class="mega-label" data-i18n="mega_1">Roumers 1 &amp; 2</span>
           </a>
           <a href="#acc-himara" class="mega-item">
-            <span class="mega-thumb" style="background-image:url('https://a0.muscache.com/im/pictures/hosting/Hosting-1606487442614467956/original/d89c9ab1-0843-418a-abad-dc5acdbecdec.png?im_w=480');"></span>
+            <span class="mega-thumb" style="background-image:url('https://a0.muscache.com/im/pictures/hosting/Hosting-1606487442614467956/original/36f61aac-b138-42d7-a287-05ea4a6f79fc.jpeg?im_w=480');"></span>
             <span class="mega-label" data-i18n="mega_2">Roumers 3 &amp; 4</span>
           </a>
           <a href="#acc-himara" class="mega-item">
@@ -343,7 +411,7 @@ footer ul a:hover{color:var(--turquoise);}
             <span class="mega-label" data-i18n="mega_3">Roumers Villa I &amp; II</span>
           </a>
           <a href="#acc-seaside" class="mega-item">
-            <span class="mega-thumb" style="background-image:url('https://a0.muscache.com/im/pictures/hosting/Hosting-1606818556579524715/original/03372882-6ee4-415c-8cfa-0c9bc3d21d80.png?im_w=480');"></span>
+            <span class="mega-thumb" style="background-image:url('https://a0.muscache.com/im/pictures/hosting/Hosting-1606490987054106581/original/857353f3-9152-4812-89c3-f08979f19b79.jpeg?im_w=480');"></span>
             <span class="mega-label" data-i18n="mega_4">Roumers Himara Seaside</span>
           </a>
         </div>
@@ -352,14 +420,13 @@ footer ul a:hover{color:var(--turquoise);}
       <a href="#gallery" data-i18n="nav_gallery">Gallery</a>
       <a href="#partner" data-i18n="nav_partner">Partner</a>
       <a href="#contact" data-i18n="nav_contact">Contact</a>
-      <a href="#careers" data-i18n="nav_careers">Careers</a>
-      <a href="#book" style="background:var(--turquoise);color:#fff;padding:8px 18px;border-radius:3px;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;" data-i18n="nav_book">Book Direct</a>
+      <a href="#book" class="nav-book-pill" data-i18n="nav_book">Book Direct</a>
       <div class="lang-switch" id="langSwitch">
         <button data-lang="en" class="active">EN</button>
         <button data-lang="sq">AL</button>
         <button data-lang="it">IT</button>
         <button data-lang="de">DE</button>
-        <button data-lang="el">GR</button>
+        <button data-lang="el">EL</button>
       </div>
     </nav>
   </div>
@@ -370,7 +437,7 @@ footer ul a:hover{color:var(--turquoise);}
   <div class="hero-grain"></div>
   <div class="container hero-content">
     <div class="eyebrow"><span class="rule"></span><span data-i18n="hero_eyebrow">Himarë · Albanian Riviera</span></div>
-    <h1 data-i18n="hero_title">Two locations on the <em>Riviera</em>, one warm welcome</h1>
+    <h1 data-i18n="hero_title">Two homes on the <em>Riviera</em>, one warm welcome</h1>
     <p class="lede" data-i18n="hero_lede">Roumers Himara Albania manages two sea-view apartments above Himarë — Roumers Himara and New Roumers Himara Seaside. Choose your stay and book direct for the best rate.</p>
     <div class="hero-cta">
       <a href="#accommodations" class="btn btn-primary"><i class="fa-solid fa-bed"></i><span data-i18n="hero_cta1">Book Now</span></a>
@@ -625,9 +692,9 @@ footer ul a:hover{color:var(--turquoise);}
           <a href="https://wa.me/306989787742" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
         </div>
       </div>
-      <form id="bookingForm" class="booking-form" action="https://api.web3forms.com/submit" method="POST">
-        <input type="hidden" name="access_key" value="790b0496-4267-4455-9727-5bbc9a0316f7">
-        <input type="hidden" name="subject" value="New Booking Request — Roumers Himara Albania">
+      <form id="bookingForm" class="booking-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <!-- Replace YOUR_FORM_ID with your Formspree ID at formspree.io -->
+        <input type="hidden" name="_subject" value="New Booking Request — Roumers Himara Albania">
         <div class="bf-row bf-2">
           <div class="bf-field">
             <label>Check-in</label>
@@ -725,82 +792,6 @@ footer ul a:hover{color:var(--turquoise);}
       <a href="https://wa.me/306989787742" target="_blank" class="btn btn-primary"><i class="fa-brands fa-whatsapp"></i><span data-i18n="contact_cta1">Chat on WhatsApp</span></a>
       <a href="tel:+306989787742" class="btn btn-dark"><i class="fa-solid fa-phone"></i><span data-i18n="contact_cta2">Call Now</span></a>
     </div>
-    <form id="contactForm" class="contact-form" action="https://api.web3forms.com/submit" method="POST">
-      <input type="hidden" name="access_key" value="790b0496-4267-4455-9727-5bbc9a0316f7">
-      <input type="hidden" name="subject" value="New Contact Message — Roumers Himara Albania">
-      <input type="text" name="name" placeholder="Your name" required>
-      <input type="email" name="email" placeholder="your@email.com" required>
-      <textarea name="message" placeholder="Your message…" required></textarea>
-      <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
-      <div id="contactFormMsg" style="display:none;margin-top:6px;padding:14px 18px;border-radius:6px;font-size:.9rem;"></div>
-    </form>
-  </div>
-</section>
-
-<!-- CAREERS -->
-<section class="booking-form-sec" id="careers">
-  <div class="container">
-    <div class="booking-form-inner reveal">
-      <div class="booking-form-text">
-        <span class="kicker">Careers</span>
-        <h2>Housekeeper — Join the Roumers Team</h2>
-        <p>We're looking for a dedicated, friendly Housekeeper to join our team for the season.</p>
-        <p style="margin-top:18px;"><strong style="color:#FAF6EE;">Candidates should meet the following requirements:</strong></p>
-        <ul class="careers-list">
-          <li>At least 2 years of experience in a hotel environment of a similar category.</li>
-          <li>Pleasant personality and presence.</li>
-          <li>Team spirit and a collaborative attitude.</li>
-          <li>Professional conduct.</li>
-          <li>Knowledge of English.</li>
-        </ul>
-        <p style="margin-top:18px;"><strong style="color:#FAF6EE;">We provide:</strong></p>
-        <ul class="careers-list">
-          <li>Meals and accommodation.</li>
-          <li>A dynamic and pleasant working environment.</li>
-          <li>Competitive salary package.</li>
-          <li>Seasonal employment.</li>
-        </ul>
-        <p class="careers-note">To apply, please send an updated CV with a recent photo to <a href="mailto:book@roumershimara.com" style="color:var(--turquoise);">book@roumershimara.com</a>, or use the application form.</p>
-      </div>
-      <form id="careersForm" class="booking-form" action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="access_key" value="790b0496-4267-4455-9727-5bbc9a0316f7">
-        <input type="hidden" name="subject" value="New Job Application — Roumers Himara Albania">
-        <div class="bf-field">
-          <label>Position</label>
-          <select name="position">
-            <option value="Housekeeper" selected>Housekeeper</option>
-          </select>
-        </div>
-        <div class="bf-row bf-2">
-          <div class="bf-field">
-            <label>Full Name</label>
-            <input type="text" name="name" placeholder="Your full name" required>
-          </div>
-          <div class="bf-field">
-            <label>Phone</label>
-            <input type="tel" name="phone" placeholder="+30 ..." required>
-          </div>
-        </div>
-        <div class="bf-field">
-          <label>Email</label>
-          <input type="email" name="email" placeholder="your@email.com" required>
-        </div>
-        <div class="bf-field">
-          <label>Message</label>
-          <textarea name="message" rows="3" placeholder="Tell us a bit about your experience…"></textarea>
-        </div>
-        <div class="bf-field">
-          <label>Attach your CV</label>
-          <input type="file" name="attachment" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.odf,.xls,.xlsx">
-        </div>
-        <div class="bf-field bf-check">
-          <input type="checkbox" name="privacy_agree" id="careersPrivacy" required>
-          <label for="careersPrivacy">I have read and agree with the privacy policy and terms &amp; conditions.</label>
-        </div>
-        <button type="submit" class="bf-submit"><i class="fa-solid fa-paper-plane"></i> Submit Application</button>
-        <div id="careersFormMsg" style="display:none;margin-top:14px;padding:14px 18px;border-radius:6px;font-size:.9rem;"></div>
-      </form>
-    </div>
   </div>
 </section>
 
@@ -818,7 +809,6 @@ footer ul a:hover{color:var(--turquoise);}
         <li><a href="#gallery" data-i18n="nav_gallery">Gallery</a></li>
         <li><a href="#partner" data-i18n="nav_partner">Partner</a></li>
         <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
-        <li><a href="#careers" data-i18n="nav_careers">Careers</a></li>
       </ul>
     </div>
     <div>
@@ -924,62 +914,51 @@ document.getElementById('year').textContent = new Date().getFullYear();
   });
 })();
 
-/* ===== CAREERS FORM (Web3Forms) ===== */
+/* ===== HAMBURGER MENU ===== */
 (function(){
-  const form = document.getElementById('careersForm');
-  const msg = document.getElementById('careersFormMsg');
-  if(!form) return;
-  form.addEventListener('submit', async e=>{
-    e.preventDefault();
-    const btn = form.querySelector('.bf-submit');
-    btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Sending…';
-    try {
-      const res = await fetch(form.action,{ method:'POST', body:new FormData(form), headers:{Accept:'application/json'} });
-      if(res.ok){
-        msg.style.display='block'; msg.style.background='rgba(62,146,209,.15)'; msg.style.color='#2FAEE0';
-        msg.style.border='1px solid rgba(62,146,209,.4)';
-        msg.innerHTML='<i class="fa-solid fa-check-circle"></i> Thank you! Your application has been received.';
-        form.reset();
-      } else {
-        throw new Error('server');
+  const toggle = document.getElementById('navToggle');
+  const links = document.getElementById('navLinks');
+  const icon = document.getElementById('toggleIcon');
+  const dropdown = document.getElementById('navDropdown');
+  if(!toggle) return;
+
+  toggle.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    icon.className = open ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+
+  // Tap Accommodations in mobile to toggle sub-menu
+  if(dropdown){
+    dropdown.querySelector('a').addEventListener('click', (e) => {
+      if(window.innerWidth <= 900){
+        e.preventDefault();
+        dropdown.classList.toggle('open');
       }
-    } catch {
-      msg.style.display='block'; msg.style.background='rgba(255,90,90,.1)'; msg.style.color='#ff7070';
-      msg.style.border='1px solid rgba(255,90,90,.3)';
-      msg.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i> Could not send. Please email your CV directly to book@roumershimara.com.';
-    }
-    btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> Submit Application';
+    });
+  }
+
+  // Close on any link click
+  links.querySelectorAll('a:not(.nav-dropdown > a)').forEach(a => {
+    a.addEventListener('click', () => {
+      links.classList.remove('open');
+      icon.className = 'fa-solid fa-bars';
+      document.body.style.overflow = '';
+    });
   });
 })();
 
-/* ===== CONTACT FORM (Web3Forms) ===== */
-(function(){
-  const form = document.getElementById('contactForm');
-  const msg = document.getElementById('contactFormMsg');
-  if(!form) return;
-  form.addEventListener('submit', async e=>{
+/* ===== SMOOTH SCROLL WITH NAV OFFSET ===== */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href').slice(1);
+    const el = document.getElementById(id);
+    if(!el) return;
     e.preventDefault();
-    const btn = form.querySelector('button[type="submit"]');
-    const originalHtml = btn.innerHTML;
-    btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Sending…';
-    try {
-      const res = await fetch(form.action,{ method:'POST', body:new FormData(form), headers:{Accept:'application/json'} });
-      if(res.ok){
-        msg.style.display='block'; msg.style.background='rgba(62,146,209,.15)'; msg.style.color='var(--teal)';
-        msg.style.border='1px solid rgba(62,146,209,.4)';
-        msg.innerHTML='<i class="fa-solid fa-check-circle"></i> Thank you! We\'ll get back to you shortly.';
-        form.reset();
-      } else {
-        throw new Error('server');
-      }
-    } catch {
-      msg.style.display='block'; msg.style.background='rgba(255,90,90,.1)'; msg.style.color='#c0392b';
-      msg.style.border='1px solid rgba(255,90,90,.3)';
-      msg.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i> Could not send. Please message us directly on WhatsApp or by phone.';
-    }
-    btn.disabled=false; btn.innerHTML=originalHtml;
+    const offset = window.innerWidth <= 900 ? 70 : 90;
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
   });
-})();
+});
 
 /* navbar scroll state */
 const nav = document.getElementById('navbar');
